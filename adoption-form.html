@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Management - Adoption & Rescue</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+            width: 400px;
+            text-align: center;
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+        }
+        input:focus, select:focus, textarea:focus {
+            border-color: #ff758c;
+            box-shadow: 0 0 5px rgba(255, 117, 140, 0.5);
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #ff758c, #ff7eb3);
+            border: none;
+            color: white;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+        button:hover {
+            background: linear-gradient(135deg, #ff7eb3, #ff758c);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>🐾 Pet Adoption & Rescue 🏡</h2>
+        
+        <h3>List a Pet for Adoption</h3>
+        <input type="text" id="petName" placeholder="Pet Name" required>
+        <input type="text" id="petBreed" placeholder="Breed" required>
+        <textarea id="petDescription" placeholder="Description & Personality" required></textarea>
+        <input type="text" id="contactInfo" placeholder="Your Contact Details" required>
+        <button onclick="listPetForAdoption()">List Pet</button>
+        
+        <h3>Search for Adoptable Pets</h3>
+        <input type="text" id="searchBreed" placeholder="Enter Breed or Location">
+        <button onclick="searchAdoptablePets()">Search</button>
+        
+        <h3>Contact Adoption Centers</h3>
+        <input type="text" id="adoptionCenter" placeholder="Enter Adoption Center Name">
+        <button onclick="contactAdoptionCenter()">Contact</button>
+    </div>
+
+    <script>
+        function listPetForAdoption() {
+            const name = document.getElementById("petName").value;
+            const breed = document.getElementById("petBreed").value;
+            const description = document.getElementById("petDescription").value;
+            const contact = document.getElementById("contactInfo").value;
+            
+            if (name && breed && description && contact) {
+                alert(`📢 Pet Listed: ${name}, Breed: ${breed}. Description: ${description}. Contact: ${contact}`);
+            } else {
+                alert("⚠️ Please fill in all details to list the pet for adoption.");
+            }
+        }
+
+        function searchAdoptablePets() {
+            const search = document.getElementById("searchBreed").value;
+            
+            if (search) {
+                alert(`🔍 Searching for adoptable pets: ${search}...`);
+            } else {
+                alert("⚠️ Please enter a breed or location to search.");
+            }
+        }
+
+        function contactAdoptionCenter() {
+            const center = document.getElementById("adoptionCenter").value;
+            
+            if (center) {
+                alert(`📞 Contacting adoption center: ${center}...`);
+            } else {
+                alert("⚠️ Please enter an adoption center name.");
+            }
+        }
+    </script>
+</body>
+</html>

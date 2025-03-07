@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Registration and Authentication</title>
+  <style>
+    /* General Styles */
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #ff8f93, #f6e5e1);
+      color: #0a0a0a;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: rgba(182, 19, 19, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      padding: 30px;
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+      border: 1px solid rgba(232, 214, 214, 0.2);
+      animation: fadeIn 0.5s ease;
+    }
+
+    h1,h4 {
+      color: #823232;
+      margin-bottom: 20px;
+      font-size: 28px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      background: rgba(255, 255, 255, 0.2);
+      color: #dc7575;
+      outline: none;
+      transition: background 0.3s ease;
+    }
+
+    input::placeholder {
+      color: rgb(255, 102, 102);
+    }
+
+    input:focus {
+      background: rgba(232, 126, 126, 0.618);
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #ff9a9e;
+      color: rgb(183, 87, 87);
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    button:hover {
+      background: #fad0c4;
+      transform: translateY(-2px);
+    }
+
+    .switch-form {
+      margin-top: 15px;
+      font-size: 14px;
+    }
+
+    .switch-form a {
+      color: #975f5f;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s ease;
+    }
+
+    .switch-form a:hover {
+      color: #bd8170;
+    }
+
+    .error-message {
+      color: #ff4d4d;
+      margin-bottom: 15px;
+      font-size: 14px;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      50% { transform: translateX(5px); }
+      75% { transform: translateX(-5px); }
+    }
+
+    .shake {
+      animation: shake 0.4s ease;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Registration Form -->
+    <div id="registration-form">
+        <h1>Welcome to our Pet Care 🐾</h1>
+
+        <h4>Register here please</h4>
+        <div id="register-error" class="error-message"></div>
+      <input type="text" id="register-username" placeholder="Username">
+      <input type="email" id="register-email" placeholder="Email">
+      <input type="password" id="register-password" placeholder="Password">
+      <button onclick="register()">Register</button>
+      <div class="switch-form">
+        Already have an account? <a href="#" onclick="showLoginForm()">Login</a>
+      </div>
+    </div>
+
+    <!-- Login Form -->
+    <div id="login-form" style="display: none;">
+      <h1>Login</h1>
+      <div id="login-error" class="error-message"></div>
+      <input type="text" id="login-username" placeholder="Username">
+      <input type="password" id="login-password" placeholder="Password">
+      <button onclick="login()">Login</button>
+      <div class="switch-form">
+        Don't have an account? <a href="home.html" onclick="showRegistrationForm()">Register</a>
+      </div>
+      <div class="switch-form">
+        <a href="#" onclick="showForgotPasswordForm()">Forgot Password?</a>
+      </div>
+    </div>
+
+    <!-- Forgot Password Form -->
+    <div id="forgot-password-form" style="display: none;">
+      <h1>Forgot Password</h1>
+      <div id="forgot-password-error" class="error-message"></div>
+      <input type="email" id="forgot-password-email" placeholder="Email">
+      <button onclick="recoverPassword()">Recover Password</button>
+      <div class="switch-form">
+        Remember your password? <a href="#" onclick="showLoginForm()">Login</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Simulated user database using localStorage
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+
+    // Show Registration Form
+    function showRegistrationForm() {
+      document.getElementById('registration-form').style.display = 'block';
+      document.getElementById('login-form').style.display = 'none';
+      document.getElementById('forgot-password-form').style.display = 'none';
+      clearErrors();
+    }
+
+    // Show Login Form
+    function showLoginForm() {
+      document.getElementById('registration-form').style.display = 'none';
+      document.getElementById('login-form').style.display = 'block';
+      document.getElementById('forgot-password-form').style.display = 'none';
+      clearErrors();
+    }
+
+    // Show Forgot Password Form
+    function showForgotPasswordForm() {
+      document.getElementById('registration-form').style.display = 'none';
+      document.getElementById('login-form').style.display = 'none';
+      document.getElementById('forgot-password-form').style.display = 'block';
+      clearErrors();
+    }
+
+    // Clear Error Messages
+    function clearErrors() {
+      document.getElementById('register-error').textContent = '';
+      document.getElementById('login-error').textContent = '';
+      document.getElementById('forgot-password-error').textContent = '';
+    }
+
+    // Register a New User
+    function register() {
+      const username = document.getElementById('register-username').value.trim();
+      const email = document.getElementById('register-email').value.trim();
+      const password = document.getElementById('register-password').value.trim();
+
+      if (!username || !email || !password) {
+        showError('register-error', 'Please fill in all fields.');
+        return;
+      }
+
+      // Check if user already exists
+      const userExists = users.some(user => user.username === username || user.email === email);
+      if (userExists) {
+        showError('register-error', 'Username or email already exists.');
+        return;
+      }
+
+      // Add user to the database
+      users.push({ username, email, password });
+      localStorage.setItem('users', JSON.stringify(users));
+
+      alert('Registration successful! Please login.');
+      showLoginForm();
+    }
+
+    // Login User
+    function login() {
+      const username = document.getElementById('login-username').value.trim();
+      const password = document.getElementById('login-password').value.trim();
+
+      if (!username || !password) {
+        showError('login-error', 'Please fill in all fields.');
+        return;
+      }
+
+      // Find user in the database
+      const user = users.find(user => user.username === username && user.password === password);
+      if (!user) {
+        showError('login-error', 'Invalid username or password.');
+        return;
+      }
+
+      alert('Login successful!');
+      // Redirect to the main page (you can replace this with actual redirection logic)
+      window.location.href = 'dashboard.html';
+    }
+
+    // Recover Password
+    function recoverPassword() {
+      const email = document.getElementById('forgot-password-email').value.trim();
+
+      if (!email) {
+        showError('forgot-password-error', 'Please enter your email.');
+        return;
+      }
+
+      // Find user by email
+      const user = users.find(user => user.email === email);
+      if (!user) {
+        showError('forgot-password-error', 'No account found with this email.');
+        return;
+      }
+
+      alert(`Password recovery email sent to ${email}.`);
+      showLoginForm();
+    }
+
+    // Show Error Message with Shake Animation
+    function showError(elementId, message) {
+      const errorElement = document.getElementById(elementId);
+      errorElement.textContent = message;
+      errorElement.classList.add('shake');
+      setTimeout(() => errorElement.classList.remove('shake'), 400);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pet Management Website</title>
+  <style>
+    /* General Styles */
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    h1, h2, h3 {
+      color:  #050505;
+      text-align: center;
+    }
+
+    /* Communication Module */
+    .communication-module, .reminders-module, .emergency-module {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      margin-bottom: 30px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .communication-module:hover, .reminders-module:hover, .emergency-module:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .message-box {
+      border: 1px solid #fad0c4;
+      padding: 15px;
+      height: 200px;
+      overflow-y: auto;
+      margin-bottom: 15px;
+      background-color: #f9f9f9;
+      border-radius: 10px;
+    }
+
+    .message-input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #fad0c4;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+
+    .send-button {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, #ff7eb3, #ff758c);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+
+    .send-button:hover {
+        background: linear-gradient(135deg, #ff7eb3, #ff758c);
+    }
+
+    /* Reminders and Notifications */
+    .reminder-list {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .reminder-item {
+      background-color: #f9f9f9;
+      padding: 15px;
+      margin-bottom: 10px;
+      border-radius: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background-color 0.3s ease;
+    }
+
+    .reminder-item:hover {
+      background-color: #f1f1f1;
+    }
+
+    .reminder-item button {
+      background-color: #ff4d4d;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 5px 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .reminder-item button:hover {
+      background-color: #f12626;
+    }
+
+    .notification-preferences {
+      margin-top: 20px;
+    }
+
+    .notification-preferences label {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+
+    /* Emergency Call Service */
+    .emergency-contacts {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .emergency-contact {
+      background-color: #f9f9f9;
+      padding: 15px;
+      margin-bottom: 10px;
+      border-radius: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background-color 0.3s ease;
+    }
+
+    .emergency-contact:hover {
+      background-color: #f1f1f1;
+    }
+
+    .emergency-contact button {
+      background-color: #ff4d4d;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 5px 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .emergency-contact button:hover {
+      background-color: #e60000;
+    }
+
+    .add-contact-form {
+      margin-top: 20px;
+    }
+
+    .add-contact-form input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      font-size: 16px;
+    }
+
+    .add-contact-button {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, #ff7eb3, #ff758c);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+
+    .add-contact-button:hover {
+        background: linear-gradient(135deg, #ff7eb3, #ff758c);
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .communication-module, .reminders-module, .emergency-module {
+      animation: fadeIn 0.5s ease;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Communication Module -->
+    <div class="communication-module">
+      <h2>Communication Module</h2>
+      <div class="message-box" id="message-box">
+        <!-- Messages will appear here -->
+      </div>
+      <input type="text" class="message-input" id="message-input" placeholder="Type your message...">
+      <button class="send-button" onclick="sendMessage()">Send</button>
+    </div>
+
+    <!-- Reminders and Notifications -->
+    <div class="reminders-module">
+      <h2>Reminders and Notifications</h2>
+      <ul class="reminder-list" id="reminder-list">
+        <li class="reminder-item">
+          Vaccination Reminder: Due on October 30, 2023
+          <button onclick="removeReminder(this)">Delete</button>
+        </li>
+        <li class="reminder-item">
+          Medicine Time: 8:00 AM
+          <button onclick="removeReminder(this)">Delete</button>
+        </li>
+        <li class="reminder-item">
+          Appointment Alarm: Vet Visit at 10:00 AM
+          <button onclick="removeReminder(this)">Delete</button>
+        </li>
+      </ul>
+      <div class="notification-preferences">
+        <h3>Notification Preferences</h3>
+        <label>
+          <input type="checkbox" id="email-notifications"> Email Notifications
+        </label>
+        <label>
+          <input type="checkbox" id="sms-notifications"> SMS Notifications
+        </label>
+        <label>
+          <input type="checkbox" id="app-notifications"> In-App Notifications
+        </label>
+      </div>
+    </div>
+
+    <!-- Emergency Call Service -->
+    <div class="emergency-module">
+      <h2>Emergency Call Service</h2>
+      <ul class="emergency-contacts" id="emergency-contacts">
+        <li class="emergency-contact">
+          Veterinarian: Dr. Smith - 123-456-7890
+          <button onclick="removeContact(this)">Delete</button>
+        </li>
+        <li class="emergency-contact">
+          Pet Hospital: City Pet Clinic - 987-654-3210
+          <button onclick="removeContact(this)">Delete</button>
+        </li>
+      </ul>
+      <div class="add-contact-form">
+        <h3>Add Emergency Contact</h3>
+        <input type="text" id="contact-name" placeholder="Contact Name">
+        <input type="text" id="contact-number" placeholder="Contact Number">
+        <button class="add-contact-button" onclick="addContact()">Add Contact</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Communication Module
+    function sendMessage() {
+      const messageInput = document.getElementById('message-input');
+      const messageBox = document.getElementById('message-box');
+
+      if (messageInput.value.trim() === '') {
+        alert('Please enter a message.');
+        return;
+      }
+
+      const message = document.createElement('div');
+      message.textContent = `You: ${messageInput.value}`;
+      messageBox.appendChild(message);
+      messageInput.value = '';
+      messageBox.scrollTop = messageBox.scrollHeight; // Auto-scroll to the latest message
+    }
+
+    // Reminders and Notifications
+    function removeReminder(button) {
+      const reminderItem = button.parentElement;
+      reminderItem.remove();
+    }
+
+    // Emergency Call Service
+    function addContact() {
+      const contactName = document.getElementById('contact-name');
+      const contactNumber = document.getElementById('contact-number');
+      const emergencyContacts = document.getElementById('emergency-contacts');
+
+      if (contactName.value.trim() === '' || contactNumber.value.trim() === '') {
+        alert('Please fill in both fields.');
+        return;
+      }
+
+      const contactItem = document.createElement('li');
+      contactItem.className = 'emergency-contact';
+      contactItem.innerHTML = `
+        ${contactName.value}: ${contactNumber.value}
+        <button onclick="removeContact(this)">Delete</button>
+      `;
+      emergencyContacts.appendChild(contactItem);
+
+      // Clear input fields
+      contactName.value = '';
+      contactNumber.value = '';
+    }
+
+    function removeContact(button) {
+      const contactItem = button.parentElement;
+      contactItem.remove();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Adoption</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: linear-gradient(135deg, #efa7c5, #fa8c9e);
+
+        }
+        .category {
+            margin-bottom: 20px;
+        }
+        .pet-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: nowrap;
+        }
+        .pet {
+            border: 1px solid #090707;
+            border-radius: 8px;
+            padding: 10px;
+            margin: 10px;
+            width: 200px;
+        }
+        .pet img {
+            width: 100%;
+            border-radius: 8px;
+        }
+        .selected-pets {
+            margin-top: 20px;
+        }
+
+        
+.btn {
+            display: inline-block;
+            padding: 12px 20px;
+            margin: 10px;
+            font-size: 16px;
+            color: white;
+            background: linear-gradient(135deg, #ff758c, #ff7eb3);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+        .btn:hover {
+            background: linear-gradient(135deg, #ff7eb3, #ff758c);
+        }
+    </style>
+</head>
+<body>
+    <h1>Adopt a Pet</h1>
+    <a href="adoption-form.html" class="btn" class="w3-right">Adoption form</a>
+
+    <div class="category">
+        <h2>Cats</h2>
+        <div class="pet-container" id="cats-list"></div>
+    </div>
+    
+    <div class="category">
+        <h2>Dogs</h2>
+        <div class="pet-container" id="dogs-list"></div>
+    </div>
+    
+    <div class="category">
+        <h2>Horses</h2>
+        <div class="pet-container" id="horses-list"></div>
+    </div>
+    
+    <div class="category">
+        <h2>Birds</h2>
+        <div class="pet-container" id="birds-list"></div>
+    </div>
+    
+    
+    
+    <h2>Selected Pets</h2>
+    <div class="selected-pets" id="selected-pets"></div>
+
+    <script>
+        const pets = [
+        { id: 1, name: "Bella", image: "cat1.jpg", category: "cat" },
+        { id: 2, name: "Charlie", image: "cat3.jpg", category: "cat" },
+        { id: 3, name: "Charlie", image: "cat4.jpg", category: "cat" },
+        { id: 4, name: "Charlie", image: "cat5.jpg", category: "cat" },
+        { id: 5, name: "Charlie", image: "cat2.jpg", category: "cat" },
+
+
+            { id: 6, name: "Max", image: "dog7.png", category: "dog" },
+            { id: 7, name: "Buddy", image: "dog2.png", category: "dog" },
+            { id: 8, name: "Leo", image: "dog3.png", category: "dog" },
+            { id: 9, name: "Charlie", image: "dog4.png", category: "dog" },
+            { id: 10, name: "Finn", image: "dog5.png", category: "dog" },
+            { id: 11, name: "Willow", image: "dog6.png", category: "dog" },
+
+     { id: 12, name: "Thunder ", image: "horse2.png", category: "horse" },
+     { id: 13, name: "Apollo ", image: "horse3.png", category: "horse" },
+     { id: 14, name: "Storm", image: "horse4.png", category: "horse" },
+     { id: 15, name: "Blaze ", image: "horse5.png", category: "horse" },
+     { id: 16, name: "Athena ", image: "horse6.png", category: "horse" },
+
+     { id: 17, name: "Sunny ", image: "bird1.png", category: "bird" },
+     { id: 18, name: "Rio", image: "bird2.png", category: "bird" },
+     { id: 19, name: "Pippin  ", image: "bird3.png", category: "bird" },
+     { id: 20, name: "Coco  ", image: "bird4.png", category: "bird" },
+     { id: 21, name: "Pearl  ", image: "bird5.png", category: "bird" },
+
+
+    ];
+
+        function displayPets() {
+            const catsList = document.getElementById("cats-list");
+            const dogsList = document.getElementById("dogs-list");
+            const horsesList = document.getElementById("horses-list");
+            const birdsList = document.getElementById("birds-list");
+
+            pets.forEach(pet => {
+                const petDiv = document.createElement("div");
+                petDiv.classList.add("pet");
+                petDiv.innerHTML = `
+                    <img src="${pet.image}" alt="${pet.name}">
+                    <h3>${pet.name}</h3>
+                    <button onclick="selectPet('${pet.name}', '${pet.image}')" class="btn">Adopt</button>
+                `;
+                if (pet.category === "cat") {
+                    catsList.appendChild(petDiv);
+                } else if (pet.category === "dog") {
+                    dogsList.appendChild(petDiv);
+                } else if (pet.category === "horse") {
+                    horsesList.appendChild(petDiv);
+                } else if (pet.category === "bird") {
+                    birdsList.appendChild(petDiv);
+                }
+            });
+        }
+
+        function selectPet(id, name, image, button) {
+            const selectedPets = document.getElementById("selected-pets");
+            if (document.getElementById(`selected-${id}`)) {
+                alert("This pet has already been adopted!");
+                return;
+            }
+            const petDiv = document.createElement("div");
+            petDiv.classList.add("pet");
+            petDiv.id = `selected-${id}`;
+            petDiv.innerHTML = `
+                <img src="${image}" alt="${name}">
+                <h3>${name}</h3>
+            `;
+            selectedPets.appendChild(petDiv);
+            button.disabled = true;
+            button.textContent = "Adopted";
+        }
+
+        function adoptPet(id, name) {
+            window.location.href = `adoption-form.html?petId=${id}&petName=${encodeURIComponent(name)}`;
+        }
+
+        displayPets();
+    </script>
+</body>
+</html>
+
+

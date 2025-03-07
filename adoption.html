@@ -1,0 +1,86 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Choice</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: linear-gradient(135deg, #ff7eb3, #ff758c);
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        .pet-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            padding: 20px;
+        }
+        .pet {
+            padding: 15px;
+            background: lightblue;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .pet img {
+            width: 80px;
+            height: 80px;
+            display: block;
+            margin: 0 auto 10px;
+        }
+        .pet:hover {
+            background: deepskyblue;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Select Your Favorite Pet</h2>
+        <div class="pet-grid" id="petGrid">
+            <div class="pet" onclick="selectPet('Dog')">
+                <img src="Dog.png" alt="Dog">
+                🐶 Dog
+            </div>
+            <div class="pet" onclick="selectPet('Cat')">
+                <img src="Cat.png" alt="Cat">
+                🐱 Cat
+            </div>
+            <div class="pet" onclick="selectPet('Horse')">
+                <img src="Hourse.png" alt="Horse">
+                🐴 Horse
+            </div>
+            <div class="pet" onclick="selectPet('Rabbit')">
+                <img src="Rabit.png" alt="Rabbit">
+                🐰 Rabbit
+            </div>
+            <div class="pet" onclick="selectPet('Bird')">
+                <img src="Bird.png" alt="Bird">
+                🐦 Bird
+            </div>
+            <div class="pet" onclick="selectPet('Fish')">
+                <img src="Fish.png" alt="Fish">
+                🐠 Fish
+            </div>
+        </div>
+        <h3 id="selectedPet">You haven't selected a pet yet.</h3>
+    </div>
+    
+    <script>
+        function selectPet(pet) {
+            document.getElementById('selectedPet').innerText = `You selected: ${pet}!`;
+        }
+    </script>
+</body>
+</html>
+
+
